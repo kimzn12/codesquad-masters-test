@@ -8,7 +8,7 @@ public class PushingWord {
     public PushingWord(String word, int num, String direction) {
         stringToDeque(word);
         decideDirection(num, direction);
-        System.out.println(printWord());
+        //printWord();
     }
 
 
@@ -61,7 +61,7 @@ public class PushingWord {
 
 
     //정답 리턴
-    private String printWord() {
+    public String printWord() {
         StringBuilder result = new StringBuilder();
         while (!(wordDeque.isEmpty())) result.append(wordDeque.removeFirst());
         return result.toString();
