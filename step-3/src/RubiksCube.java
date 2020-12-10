@@ -1,8 +1,10 @@
 package src;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class RubiksCube {
+    private PlaneCube planeCube;
     private static final int CUBE_SIZE = 3;
     String[][] FrontSide;
     String[][] BackSide;
@@ -37,9 +39,38 @@ public class RubiksCube {
             Arrays.fill(s, color);
         }
     }
+
+    public void run(){
+        while(true){
+            //입력받기
+            String lines = inputLine();
+
+            //Q 입력하면 종료
+            if(lines.equalsIgnoreCase("Q")){
+                System.out.println("이용해주셔서 감사합니다. 뚜뚜뚜.");
+                System.exit(0);
+            }
+
+            String[] lineArray = lines.split("");
+            for(String line:lineArray){
+                System.out.println(line);
+            }
+
+        }
+    }
+
+    //라인(U,R,L,B) 입력받기
+    private  String inputLine(){
+        System.out.print("CUBE> ");
+        Scanner sc = new Scanner(System.in);
+
+        return sc.nextLine();
+    }
+
+    //큐브 출력
     private void printUpperOrDown(String[][] side){
         for(String[] s:side){
-            System.out.print("     ");
+            System.out.print("\t\t\t");
             for(String color:s){
                 System.out.print(color + " ");
             }
@@ -62,9 +93,9 @@ public class RubiksCube {
 
     private void printLine(String[][] side, int index) {
         for(int j = 0; j < CUBE_SIZE; j++){
-            System.out.print(side[index][j] + " ");
+            System.out.printf("%s ", side[index][j]);
         }
-        System.out.print(" ");
+        System.out.print("\t");
     }
 
     private void printRubiksCube() {
@@ -72,6 +103,4 @@ public class RubiksCube {
         printSides();
         printUpperOrDown(DownSide);
     }
-
-
 }
