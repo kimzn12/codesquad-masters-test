@@ -3,19 +3,16 @@ import java.util.Deque;
 
 
 public class PushingWord {
-    private final Deque<String> wordDeque = new ArrayDeque<>();
+    private final Deque<String> wordDeque;
 
-    public PushingWord(String word, int num, String direction) {
-        stringToDeque(word);
-        decideDirection(num, direction);
-        System.out.println(printWord());
+    public PushingWord() {
+       this.wordDeque = new ArrayDeque<>();
     }
 
-
-    //단어 덱에 집어 넣기
-    public void stringToDeque(String str) {
-        for (int i = 0; i < str.length(); i++) {
-            wordDeque.add(Character.toString(str.charAt(i))); // 한 글자씩 덱에 담기
+    //배열 요소 덱에 집어 넣기
+    private void ArrayToDeque(String[] array){
+        for(int i = 0; i < array.length; i++){
+            wordDeque.add(array[i]);
         }
     }
 
@@ -59,12 +56,12 @@ public class PushingWord {
         }
     }
 
-
-    //정답 리턴
-    private String printWord() {
-        StringBuilder result = new StringBuilder();
-        while (!(wordDeque.isEmpty())) result.append(wordDeque.removeFirst());
-        return result.toString();
+    //덱을 배열로 리턴
+    private String[] DequeToArray(){
+        String[] resultArray = new String[wordDeque.size()];
+        for(int i = 0; i < resultArray.length; i++){
+            resultArray[i] = wordDeque.removeFirst();
+        }
+        return resultArray;
     }
-
 }
