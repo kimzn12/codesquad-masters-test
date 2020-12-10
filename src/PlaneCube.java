@@ -11,30 +11,20 @@ public class PlaneCube {
 
     public void run(){
         while(true){
-            //실행
-            String line = inputLine();
-            switch (line){
-                case "U": case "u":
-                    TurnLeft("U");
-                    printCube();
-                    break;
-                case "R": case "r":
-                    TurnLeft("R");
-                    printCube();
-                    break;
-                case "L": case "l":
-                    TurnRight("L");
-                    printCube();
-                    break;
-                case "B": case "b":
-                    TurnRight("B");
-                    printCube();
-                    break;
-                case "Q": case "q":
-                    System.out.println("Bye~~!");
-                    System.exit(0);
+            //입력받기
+            String lines = inputLine();
 
+            //Q 입력하면 종료
+            if(lines.equalsIgnoreCase("Q")){
+                System.out.println("Bye~~!");
+                System.exit(0);
             }
+
+            String[] lineArray = lines.split("");
+            for(String line:lineArray){
+                cubeProcess(line);
+            }
+
         }
     }
 
@@ -44,6 +34,28 @@ public class PlaneCube {
         Scanner sc = new Scanner(System.in);
 
         return sc.nextLine();
+    }
+
+    //U,R,B,L 입력시 큐브 동작
+    private void cubeProcess(String line) {
+        switch (line){
+            case "U": case "u":
+                TurnLeft("U");
+                printCube();
+                break;
+            case "R": case "r":
+                TurnLeft("R");
+                printCube();
+                break;
+            case "L": case "l":
+                TurnRight("L");
+                printCube();
+                break;
+            case "B": case "b":
+                TurnRight("B");
+                printCube();
+                break;
+        }
     }
 
     //왼쪽으로 돌리기
