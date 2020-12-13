@@ -24,7 +24,7 @@ public class Rotator {
     //cmd: D
     //direction,leftside,frontside,rightside,backside
     public void turnBottomSide(String cmd, Side side1, Side side2, Side side3, Side side4) {
-        pusher.insertBlock2(side1.getBottomLine(),side2.getBottomLine(),
+        pusher.insertBlock(side1.getBottomLine(),side2.getBottomLine(),
                 side3.getBottomLine(),side4.getBottomLine());
 
         pusher.pushBlock(1,cmd);
@@ -39,7 +39,7 @@ public class Rotator {
     //cmd: F
     //direction,topside,rightside,bottomside,leftside
     public void turnFrontSide(String cmd, Side side1, Side side2, Side side3, Side side4) {
-        pusher.insertBlock2(side1.getBottomLine(),reverse(side2.getLeftLine()),
+        pusher.insertBlock(side1.getBottomLine(),reverse(side2.getLeftLine()),
                 side3.getTopLine(),reverse(side4.getRightLine()));
 
         pusher.pushBlock(1,cmd);
@@ -101,8 +101,14 @@ public class Rotator {
 
     //해당 면 돌리기
     public void turnBaseSide(String cmd,Side side){ //right(f,r,u,b,l,d)
-        pusher.insertBlock2(side.getTopLine(),reverse(side.getRightLine()),
-                side.getBottomLine(),reverse(side.getLeftLine()));
+        if(cmd.equalsIgnoreCase("R")){
+            pusher.insertBlock(side.getTopLine(),reverse(side.getRightLine()),
+                    side.getBottomLine(),reverse(side.getLeftLine()));
+        } else if(cmd.equalsIgnoreCase("L")){
+            pusher.insertBlock(reverse(side.getTopLine()),side.getRightLine(),
+                    reverse(side.getBottomLine()),side.getLeftLine());
+        }
+
 
         pusher.pushBlock(1,cmd);
 
