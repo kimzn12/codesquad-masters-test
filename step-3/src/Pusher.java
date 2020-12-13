@@ -12,22 +12,11 @@ public class Pusher {
     }
 
     //블록들 덱에 집어 넣기
-    public void insertBlock2(Block[] blocks1,Block[] blocks2,Block[] blocks3,Block[] blocks4) {
+    public void insertBlock(Block[] blocks1,Block[] blocks2,Block[] blocks3,Block[] blocks4) {
         blockDeque.add(blocks1.clone());
         blockDeque.add(blocks2.clone());
         blockDeque.add(blocks3.clone());
         blockDeque.add(blocks4.clone());
-    }
-
-    public void printDeque(){
-        while (!(blockDeque.isEmpty())){
-            Block[] b = blockDeque.remove();
-            for(Block block:b){
-                System.out.print(block.getColor());
-            }
-            System.out.println();
-        }
-        System.out.println();
     }
 
     public Block[] getBlocks(){
