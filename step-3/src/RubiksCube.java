@@ -53,7 +53,7 @@ public class RubiksCube {
                 System.exit(0);
             }
 
-            String[] lineArray = commands.split("");
+            String[] lineArray = commands.split(" ");
 
             for(String command:lineArray){
                 System.out.println(command); //대문자로 출력하기
@@ -89,6 +89,12 @@ public class RubiksCube {
             case "B": case "b":
                 rotator.turnBaseSide("R",backSide);
                 rotator.turnBackSide("L",topSide,rightSide,bottomSide,leftSide);
+
+                //반대로 돌기
+            case "U'": case "u'":
+                rotator.turnBaseSide("L",topSide);
+                rotator.turnTopSide("R",leftSide,frontSide,rightSide,backSide);
+                break;
         }
 
     }
