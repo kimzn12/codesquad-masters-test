@@ -1,6 +1,5 @@
 package src;
 
-import java.text.Normalizer;
 import java.util.Scanner;
 
 public class RubiksCube {
@@ -29,13 +28,18 @@ public class RubiksCube {
     }
 
     private void initCube() {
-        frontSide = new Side(CUBE_SIZE,ANSI_PURPLE + "P" + ANSI_PURPLE + ANSI_RESET); //Orange
-        backSide = new Side(CUBE_SIZE,ANSI_YELLOW + "Y" + ANSI_YELLOW + ANSI_RESET); //Yellow
-        rightSide = new Side(CUBE_SIZE,ANSI_GREEN + "G" + ANSI_GREEN + ANSI_RESET); //Green
-        leftSide = new Side(CUBE_SIZE,"W"); //White
-        topSide = new Side(CUBE_SIZE,ANSI_BLUE + "B" + ANSI_BLUE+ ANSI_RESET); //Blue
-        bottomSide = new Side(CUBE_SIZE,ANSI_RED + "R"+ ANSI_RED+ ANSI_RESET); //Red
-
+//        frontSide = new Side(CUBE_SIZE,ANSI_PURPLE + "P" + ANSI_PURPLE + ANSI_RESET); //Purple
+//        backSide = new Side(CUBE_SIZE,ANSI_YELLOW + "Y" + ANSI_YELLOW + ANSI_RESET); //Yellow
+//        rightSide = new Side(CUBE_SIZE,ANSI_GREEN + "G" + ANSI_GREEN + ANSI_RESET); //Green
+//        leftSide = new Side(CUBE_SIZE,"W"); //White
+//        topSide = new Side(CUBE_SIZE,ANSI_BLUE + "B" + ANSI_BLUE+ ANSI_RESET); //Blue
+//        bottomSide = new Side(CUBE_SIZE,ANSI_RED + "R"+ ANSI_RED+ ANSI_RESET); //Red
+        leftSide = new Side(CUBE_SIZE,ANSI_PURPLE + "P" + ANSI_PURPLE + ANSI_RESET); //Purple
+        bottomSide = new Side(CUBE_SIZE,ANSI_YELLOW + "Y" + ANSI_YELLOW + ANSI_RESET); //Yellow
+        frontSide = new Side(CUBE_SIZE,ANSI_GREEN + "G" + ANSI_GREEN + ANSI_RESET); //Green
+        topSide = new Side(CUBE_SIZE,"W"); //White
+        backSide = new Side(CUBE_SIZE,ANSI_BLUE + "B" + ANSI_BLUE+ ANSI_RESET); //Blue
+        rightSide = new Side(CUBE_SIZE,ANSI_RED + "R"+ ANSI_RED+ ANSI_RESET); //Red
     }
 
     public void run(){
@@ -52,13 +56,41 @@ public class RubiksCube {
             String[] lineArray = commands.split("");
 
             for(String command:lineArray){
-                if(command.equalsIgnoreCase("U")){
-                    rotator.turnTopSide("L",leftSide,frontSide,rightSide,backSide);
-                }
+                System.out.println(command); //대문자로 출력하기
+                rubiksCubeProcess(command);
+                printRubiksCube();
             }
-            printRubiksCube();
 
         }
+    }
+
+    private void rubiksCubeProcess(String command) {
+        switch (command){
+            case "U": case "u":
+                rotator.turnBaseSide("R",topSide);
+                rotator.turnTopSide("L",leftSide,frontSide,rightSide,backSide);
+                break;
+            case "D": case "d":
+                rotator.turnBaseSide("R",bottomSide);
+                rotator.turnBottomSide("R",leftSide,frontSide,rightSide,backSide);
+                break;
+            case "R": case "r":
+                rotator.turnBaseSide("R",rightSide);
+                rotator.turnRightSide("R",topSide,backSide,bottomSide,frontSide);
+                break;
+            case "L": case "l":
+                rotator.turnBaseSide("R",leftSide);
+                rotator.turnLeftSide("L",topSide,backSide,bottomSide,frontSide);
+                break;
+            case "F": case "f":
+                rotator.turnBaseSide("R",frontSide);
+                rotator.turnFrontSide("R",topSide,rightSide,bottomSide,leftSide);
+                break;
+            case "B": case "b":
+                rotator.turnBaseSide("R",backSide);
+                rotator.turnBackSide("L",topSide,rightSide,bottomSide,leftSide);
+        }
+
     }
 
     //라인(U,R,L,B) 입력받기
