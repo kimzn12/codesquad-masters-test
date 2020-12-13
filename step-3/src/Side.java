@@ -7,8 +7,6 @@ public class Side {
     private final int size;
     private final String color;
 
-    public Block[] rightLine;
-
     public Side(int size, String color){
         this.side = new Block[size][size];
         this.size = size;
@@ -26,22 +24,28 @@ public class Side {
     }
 
     public Block[] getTopLine(){
-
-        return this.side[0];
+        Block[] topLine = new Block[size];
+        for(int i = 0; i < size; i++) {
+            topLine[i] = side[0][i];
+        }
+        return topLine;
     }
 
     public Block[] getBottomLine(){
-
-        return side[size - 1];
+        Block[] bottomLine = new Block[size];
+        for(int i = 0; i < size; i++) {
+            bottomLine[i] = side[2][i];
+        }
+        return bottomLine;
     }
 
     public Block[] getRightLine(){
-        this.rightLine = new Block[size];
+        Block[] rightLine = new Block[size];
         for(int i = 0; i < size; i++){
-            this.rightLine[i] = side[i][size-1];
+            rightLine[i] = side[i][size-1];
         }
 
-        return this.rightLine;
+        return rightLine;
     }
 
     public Block[] getLeftLine(){
