@@ -1,6 +1,5 @@
 package src;
 
-
 import java.util.Arrays;
 
 public class Side {
@@ -8,17 +7,12 @@ public class Side {
     private final int size;
     private final String color;
 
-    public Block[] topLine;
-    private Block[] leftLine;
-    private Block[] bottomLine;
-    private Block[] rightLine;
+    public Block[] rightLine;
 
     public Side(int size, String color){
         this.side = new Block[size][size];
         this.size = size;
         this.color = color;
-
-        this.topLine = side[0];
 
         initSide();
     }
@@ -28,15 +22,17 @@ public class Side {
         for(Block[] line: side){
             Arrays.fill(line,new Block(color));
         }
+
     }
 
     public Block[] getTopLine(){
-        return this.topLine;
+
+        return this.side[0];
     }
 
     public Block[] getBottomLine(){
-        this.bottomLine = side[size-1];
-        return bottomLine;
+
+        return side[size - 1];
     }
 
     public Block[] getRightLine(){
@@ -49,52 +45,43 @@ public class Side {
     }
 
     public Block[] getLeftLine(){
-        this.leftLine = new Block[size];
+        Block[] leftLine = new Block[size];
         for(int i = 0; i < size; i++){
-            this.leftLine[i] = side[i][0];
+            leftLine[i] = side[i][0];
         }
 
-        return this.leftLine;
+        return leftLine;
     }
 
     public void setTopLine(Block[] blocks){
-        for(Block block: blocks){
-            Arrays.fill(this.topLine,block);
+        if (size >= 0) {
+            System.arraycopy(blocks, 0, side[0], 0, size);
         }
     }
 
     public void setBottomLine(Block[] blocks){
-        for(Block block: blocks){
-            Arrays.fill(this.bottomLine,block);
+        if (size >= 0) {
+            System.arraycopy(blocks, 0, side[2], 0, size);
         }
     }
 
     public void setRightLine(Block[] blocks){
-        for(Block block: blocks){
-            Arrays.fill(this.rightLine,block);
+        for(int i = 0; i < size; i++){
+            side[i][size-1] = blocks[i];
         }
+
     }
 
     public void setLeftLine(Block[] blocks){
-        for(Block block: blocks){
-            Arrays.fill(this.leftLine,block);
+        for(int i = 0; i < size; i++){
+            side[i][0] = blocks[i];
         }
-    }
 
-    //큐브 한 면 출력
-    public  void printSide(){
-        for (Block[] line : side) {
-            for (Block block: line) {
-                System.out.print(block.getColor() + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
     }
 
     //루빅스큐브출력
     //큐브 위 아랫면 출력
-    public void printToporBottom(){
+    public void printTopOrBottom(){
         for(Block[] line:side){
             System.out.print("\t\t\t");
             for(Block block:line){
