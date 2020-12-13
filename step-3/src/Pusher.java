@@ -24,6 +24,14 @@ public class Pusher {
     }
 
 
+    public void printBlocks(){
+        for(Block[] blocks:blockDeque){
+            for(Block b: blocks){
+                System.out.print(b.getColor());
+            }
+            System.out.print(" ");
+        }
+    }
     //리턴
     public Deque<Block[]> getBlockDeque() {
         return blockDeque;
