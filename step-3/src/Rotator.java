@@ -39,8 +39,15 @@ public class Rotator {
     //cmd: F
     //direction,topside,rightside,bottomside,leftside
     public void turnFrontSide(String cmd, Side side1, Side side2, Side side3, Side side4) {
-        pusher.insertBlock(side1.getBottomLine(),reverse(side2.getLeftLine()),
-                side3.getTopLine(),reverse(side4.getRightLine()));
+        if(cmd.equalsIgnoreCase("R")){
+            pusher.insertBlock(side1.getBottomLine(),reverse(side2.getLeftLine()),
+                    side3.getTopLine(),reverse(side4.getRightLine()));
+
+        } else if(cmd.equalsIgnoreCase("L")){
+            pusher.insertBlock(reverse(side1.getBottomLine()),side2.getLeftLine(),
+                    reverse(side3.getTopLine()),side4.getRightLine());
+        }
+
 
         pusher.pushBlock(1,cmd);
 
@@ -54,10 +61,14 @@ public class Rotator {
     //cmd: B
     //direction,topside,rightside,bottomside,leftside
     public void turnBackSide(String cmd, Side side1, Side side2, Side side3, Side side4) {
-        pusher.insertBlock(reverse(side1.getTopLine()));
-        pusher.insertBlock(side2.getRightLine());
-        pusher.insertBlock(reverse(side3.getBottomLine()));
-        pusher.insertBlock(side4.getLeftLine());
+        if(cmd.equalsIgnoreCase("R")){
+            pusher.insertBlock(side1.getTopLine(),reverse(side2.getRightLine()),
+                    side3.getBottomLine(),reverse(side4.getLeftLine()));
+
+        } else if(cmd.equalsIgnoreCase("L")){
+            pusher.insertBlock(reverse(side1.getTopLine()),side2.getRightLine(),
+                    reverse(side3.getBottomLine()),side4.getLeftLine());
+        }
 
         pusher.pushBlock(1,cmd);
 
@@ -70,10 +81,14 @@ public class Rotator {
     //cmd: R
     //direction,topside,backside,bottomside,frontside
     public void turnRightSide(String cmd, Side side1, Side side2, Side side3, Side side4) {
-        pusher.insertBlock(reverse(side1.getRightLine()));
-        pusher.insertBlock(reverse(side2.getLeftLine()));
-        pusher.insertBlock(side3.getRightLine());
-        pusher.insertBlock(side4.getRightLine());
+        if(cmd.equalsIgnoreCase("R")){
+            pusher.insertBlock(reverse(side1.getRightLine()),reverse(side2.getLeftLine()),
+                    side3.getRightLine(),side4.getRightLine());
+
+        } else if(cmd.equalsIgnoreCase("L")){
+            pusher.insertBlock(side1.getRightLine(),side2.getLeftLine(),
+                    reverse(side3.getRightLine()),reverse(side4.getRightLine()));
+        }
 
         pusher.pushBlock(1,cmd);
 
@@ -86,10 +101,14 @@ public class Rotator {
     //cmd: L
     //direction,toptside,backside,bottomside,frontside
     public void turnLeftSide(String cmd, Side side1, Side side2, Side side3, Side side4) {
-        pusher.insertBlock(side1.getLeftLine());
-        pusher.insertBlock(reverse(side2.getRightLine()));
-        pusher.insertBlock(reverse(side3.getLeftLine()));
-        pusher.insertBlock(side4.getLeftLine());
+        if(cmd.equalsIgnoreCase("R")){
+            pusher.insertBlock(reverse(side1.getLeftLine()),side2.getRightLine(),
+                    side3.getLeftLine(),reverse(side4.getLeftLine()));
+
+        } else if(cmd.equalsIgnoreCase("L")){
+            pusher.insertBlock(side1.getLeftLine(),reverse(side2.getRightLine()),
+                    reverse(side3.getLeftLine()),side4.getLeftLine());
+        }
 
         pusher.pushBlock(1,cmd);
 
@@ -100,7 +119,8 @@ public class Rotator {
     }
 
     //해당 면 돌리기
-    public void turnBaseSide(String cmd,Side side){ //right(f,r,u,b,l,d)
+    public void turnBaseSide(String cmd,Side side){
+
         if(cmd.equalsIgnoreCase("R")){
             pusher.insertBlock(side.getTopLine(),reverse(side.getRightLine()),
                     side.getBottomLine(),reverse(side.getLeftLine()));
@@ -123,9 +143,8 @@ public class Rotator {
     private Block[] reverse(Block[] blocks){
         List<Block> blockList = Arrays.asList(blocks);
         Collections.reverse(blockList);
-        Block[] result = blockList.toArray(new Block[0]);
 
-        return result;
+        return blockList.toArray(new Block[0]);
 
     }
 
