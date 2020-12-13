@@ -1,23 +1,39 @@
 package src;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Deque;
 
 public class Pusher {
     private final Deque<Block[]> blockDeque = new ArrayDeque<>();
 
-//    public Pusher(Block[] blocks, int num, String direction) {
-//        insertBlock(blocks);
-//        pushBlock(num,direction);
-//        printBlocks();
-//    }
-
     //블록들 덱에 집어 넣기
     public void insertBlock(Block[] blocks) {
-        Block[] blocksClone = blocks.clone();
-        blockDeque.add(blocksClone);
+        blockDeque.add(blocks.clone());
     }
+
+    //블록들 덱에 집어 넣기
+    public void insertBlock2(Block[] blocks1,Block[] blocks2,Block[] blocks3,Block[] blocks4) {
+        blockDeque.add(blocks1.clone());
+        blockDeque.add(blocks2.clone());
+        blockDeque.add(blocks3.clone());
+        blockDeque.add(blocks4.clone());
+    }
+
+    public void printDeque(){
+        while (!(blockDeque.isEmpty())){
+            Block[] b = blockDeque.remove();
+            for(Block block:b){
+                System.out.print(block.getColor());
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    public Block[] getBlocks(){
+        return blockDeque.remove();
+    }
+
 
     //리턴
     public Deque<Block[]> getBlockDeque() {
