@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class RubiksCube {
     private static final int CUBE_SIZE = 3;
+    private int numberOfOperations = 0;
 
     Rotator rotator = new Rotator();
 
@@ -28,38 +29,44 @@ public class RubiksCube {
     }
 
     private void initCube() {
-//        frontSide = new Side(CUBE_SIZE,ANSI_PURPLE + "P" + ANSI_PURPLE + ANSI_RESET); //Purple
-//        backSide = new Side(CUBE_SIZE,ANSI_YELLOW + "Y" + ANSI_YELLOW + ANSI_RESET); //Yellow
-//        rightSide = new Side(CUBE_SIZE,ANSI_GREEN + "G" + ANSI_GREEN + ANSI_RESET); //Green
-//        leftSide = new Side(CUBE_SIZE,"W"); //White
-//        topSide = new Side(CUBE_SIZE,ANSI_BLUE + "B" + ANSI_BLUE+ ANSI_RESET); //Blue
-//        bottomSide = new Side(CUBE_SIZE,ANSI_RED + "R"+ ANSI_RED+ ANSI_RESET); //Red
-        leftSide = new Side(CUBE_SIZE,ANSI_PURPLE + "P" + ANSI_PURPLE + ANSI_RESET); //Purple
-        bottomSide = new Side(CUBE_SIZE,ANSI_YELLOW + "Y" + ANSI_YELLOW + ANSI_RESET); //Yellow
-        frontSide = new Side(CUBE_SIZE,ANSI_GREEN + "G" + ANSI_GREEN + ANSI_RESET); //Green
-        topSide = new Side(CUBE_SIZE,"W"); //White
-        backSide = new Side(CUBE_SIZE,ANSI_BLUE + "B" + ANSI_BLUE+ ANSI_RESET); //Blue
-        rightSide = new Side(CUBE_SIZE,ANSI_RED + "R"+ ANSI_RED+ ANSI_RESET); //Red
+        frontSide = new Side(CUBE_SIZE,ANSI_PURPLE + "P" + ANSI_PURPLE + ANSI_RESET); //Purple
+        backSide = new Side(CUBE_SIZE,ANSI_YELLOW + "Y" + ANSI_YELLOW + ANSI_RESET); //Yellow
+        rightSide = new Side(CUBE_SIZE,ANSI_GREEN + "G" + ANSI_GREEN + ANSI_RESET); //Green
+        leftSide = new Side(CUBE_SIZE,"W"); //White
+        topSide = new Side(CUBE_SIZE,ANSI_BLUE + "B" + ANSI_BLUE+ ANSI_RESET); //Blue
+        bottomSide = new Side(CUBE_SIZE,ANSI_RED + "R"+ ANSI_RED+ ANSI_RESET); //Red
+
     }
 
     public void run(){
+        long beforeTime = System.currentTimeMillis();
+
         while(true){
             //입력받기
             String commands = inputLine();
 
             //Q 입력하면 종료
             if(commands.equalsIgnoreCase("Q")){
-                System.out.println("이용해주셔서 감사합니다. 뚜뚜뚜.");
+                long afterTime = System.currentTimeMillis();
+                long executionTime = (afterTime - beforeTime)/1000;
+
+                System.out.println("경과 시간: " + executionTime + "초");
+                System.out.println("조작개수: " + numberOfOperations);
+                System.out.println("🎈 이용해주셔서 감사합니다. 뚜뚜뚜. 🎈");
                 System.exit(0);
             }
+
+
 
             String[] lineArray = commands.split(" ");
 
             for(String command:lineArray){
+                numberOfOperations += 1;
                 System.out.println(command); //대문자로 출력하기
                 rubiksCubeProcess(command);
                 printRubiksCube();
             }
+
 
         }
     }
