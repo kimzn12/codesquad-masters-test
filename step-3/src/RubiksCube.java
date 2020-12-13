@@ -1,60 +1,62 @@
 package src;
 
-import java.util.Arrays;
+import java.text.Normalizer;
 import java.util.Scanner;
 
 public class RubiksCube {
-    private PlaneCube planeCube;
     private static final int CUBE_SIZE = 3;
-    String[][] FrontSide;
-    String[][] BackSide;
-    String[][] RightSide;
-    String[][] LeftSide;
-    String[][] UpperSide;
-    String[][] DownSide;
+
+    Rotator rotator = new Rotator();
+
+    Side frontSide;
+    Side backSide;
+    Side rightSide;
+    Side leftSide;
+    Side topSide;
+    Side bottomSide;
+
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_GREEN = "\u001B[36m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
+    private static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+
 
     public RubiksCube(){
-        init();
+        initCube();
         printRubiksCube();
     }
 
-    private void init() {
-        FrontSide = new String[CUBE_SIZE][CUBE_SIZE];
-        BackSide = new String[CUBE_SIZE][CUBE_SIZE];
-        RightSide = new String[CUBE_SIZE][CUBE_SIZE];
-        LeftSide = new String[CUBE_SIZE][CUBE_SIZE];
-        UpperSide = new String[CUBE_SIZE][CUBE_SIZE];
-        DownSide = new String[CUBE_SIZE][CUBE_SIZE];
+    private void initCube() {
+        frontSide = new Side(CUBE_SIZE,ANSI_PURPLE + "P" + ANSI_PURPLE + ANSI_RESET); //Orange
+        backSide = new Side(CUBE_SIZE,ANSI_YELLOW + "Y" + ANSI_YELLOW + ANSI_RESET); //Yellow
+        rightSide = new Side(CUBE_SIZE,ANSI_GREEN + "G" + ANSI_GREEN + ANSI_RESET); //Green
+        leftSide = new Side(CUBE_SIZE,"W"); //White
+        topSide = new Side(CUBE_SIZE,ANSI_BLUE + "B" + ANSI_BLUE+ ANSI_RESET); //Blue
+        bottomSide = new Side(CUBE_SIZE,ANSI_RED + "R"+ ANSI_RED+ ANSI_RESET); //Red
 
-        fillColor(FrontSide,"O"); //Orange
-        fillColor(BackSide,"Y"); //Yellow
-        fillColor(RightSide,"G"); //Green
-        fillColor(LeftSide,"W"); //White
-        fillColor(UpperSide,"B"); //Blue
-        fillColor(DownSide,"R"); //Red
-    }
-
-    private void fillColor(String[][] side, String color) {
-        for(String[] s:side) {
-            Arrays.fill(s, color);
-        }
     }
 
     public void run(){
         while(true){
             //입력받기
-            String lines = inputLine();
+            String commands = inputLine();
 
             //Q 입력하면 종료
-            if(lines.equalsIgnoreCase("Q")){
+            if(commands.equalsIgnoreCase("Q")){
                 System.out.println("이용해주셔서 감사합니다. 뚜뚜뚜.");
                 System.exit(0);
             }
 
-            String[] lineArray = lines.split("");
-            for(String line:lineArray){
-                System.out.println(line);
+            String[] lineArray = commands.split("");
+
+            for(String command:lineArray){
+                if(command.equalsIgnoreCase("U")){
+                    rotator.turnTopSide("L",leftSide,frontSide,rightSide,backSide);
+                }
             }
+            printRubiksCube();
 
         }
     }
@@ -67,40 +69,26 @@ public class RubiksCube {
         return sc.nextLine();
     }
 
-    //큐브 출력
-    private void printUpperOrDown(String[][] side){
-        for(String[] s:side){
-            System.out.print("\t\t\t");
-            for(String color:s){
-                System.out.print(color + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-
-    }
-
+    /*출력*/
+    //옆면들 출력
     private void printSides(){
         for(int i = 0; i < CUBE_SIZE; i++){
-            printLine(LeftSide,i);
-            printLine(FrontSide,i);
-            printLine(RightSide,i);
-            printLine(BackSide,i);
+            leftSide.printLine(i);
+            frontSide.printLine(i);
+            rightSide.printLine(i);
+            backSide.printLine(i);
             System.out.println();
         }
         System.out.println();
     }
 
-    private void printLine(String[][] side, int index) {
-        for(int j = 0; j < CUBE_SIZE; j++){
-            System.out.printf("%s ", side[index][j]);
-        }
-        System.out.print("\t");
+
+
+    //루빅스 큐브 출력
+    public void printRubiksCube() {
+        topSide.printTopOrBottom();
+        printSides();
+        bottomSide.printTopOrBottom();
     }
 
-    private void printRubiksCube() {
-        printUpperOrDown(UpperSide);
-        printSides();
-        printUpperOrDown(DownSide);
-    }
 }
