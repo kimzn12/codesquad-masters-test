@@ -90,11 +90,31 @@ public class RubiksCube {
                 rotator.turnBaseSide("R",backSide);
                 rotator.turnBackSide("L",topSide,rightSide,bottomSide,leftSide);
 
+
                 //반대로 돌기
             case "U'": case "u'":
                 rotator.turnBaseSide("L",topSide);
                 rotator.turnTopSide("R",leftSide,frontSide,rightSide,backSide);
                 break;
+            case "D'": case "d'":
+                rotator.turnBaseSide("L",bottomSide);
+                rotator.turnBottomSide("L",leftSide,frontSide,rightSide,backSide);
+                break;
+            case "R'": case "r'":
+                rotator.turnBaseSide("L",rightSide);
+                rotator.turnRightSide("L",topSide,backSide,bottomSide,frontSide);
+                break;
+            case "L'": case "l'":
+                rotator.turnBaseSide("L",leftSide);
+                rotator.turnLeftSide("R",topSide,backSide,bottomSide,frontSide);
+                break;
+            case "F'": case "f'":
+                rotator.turnBaseSide("L",frontSide);
+                rotator.turnFrontSide("L",topSide,rightSide,bottomSide,leftSide);
+                break;
+            case "B'": case "b'":
+                rotator.turnBaseSide("L",backSide);
+                rotator.turnBackSide("R",topSide,rightSide,bottomSide,leftSide);
         }
 
     }
