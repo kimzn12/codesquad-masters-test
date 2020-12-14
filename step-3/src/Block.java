@@ -1,7 +1,5 @@
 package src;
 
-import javax.swing.*;
-
 public class Block {
     private String color;
 
