@@ -14,5 +14,4 @@ enum BlockColor {
     BlockColor(String color){
         this.color = color;
     }
-
 }
