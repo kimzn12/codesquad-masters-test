@@ -1,159 +1,115 @@
 package src;
 
-import java.util.Scanner;
+import java.util.Arrays;
 
 public class RubiksCube {
+    private Block[][][] cube;
+
     private static final int CUBE_SIZE = 3;
-    private int numberOfOperations = 0;
+    private static final int NUMBER_OF_SIDE = 6;
 
-    Rotator rotator = new Rotator();
+    private final Rotator rotator;
 
-    Side frontSide;
-    Side backSide;
-    Side rightSide;
-    Side leftSide;
-    Side topSide;
-    Side bottomSide;
-
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_GREEN = "\u001B[36m";
-    private static final String ANSI_YELLOW = "\u001B[33m";
-    private static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-
+    private Block[][] frontSide;
+    private Block[][] backSide;
+    private Block[][] rightSide;
+    private Block[][] leftSide;
+    private Block[][] topSide;
+    private Block[][] bottomSide;
 
     public RubiksCube(){
+        rotator = new Rotator();
+
         initCube();
-        printRubiksCube();
+        initSides();
+        Shuffler.shuffle(cube,50);
+        Printer.printRubiksCube(cube);
+    }
+
+    public Block[][][] getCube(){
+        return this.cube;
     }
 
     private void initCube() {
-        frontSide = new Side(CUBE_SIZE,ANSI_PURPLE + "P" + ANSI_PURPLE + ANSI_RESET); //Purple
-        backSide = new Side(CUBE_SIZE,ANSI_YELLOW + "Y" + ANSI_YELLOW + ANSI_RESET); //Yellow
-        rightSide = new Side(CUBE_SIZE,ANSI_GREEN + "G" + ANSI_GREEN + ANSI_RESET); //Green
-        leftSide = new Side(CUBE_SIZE,"W"); //White
-        topSide = new Side(CUBE_SIZE,ANSI_BLUE + "B" + ANSI_BLUE+ ANSI_RESET); //Blue
-        bottomSide = new Side(CUBE_SIZE,ANSI_RED + "R"+ ANSI_RED+ ANSI_RESET); //Red
-
+        cube = new Block[NUMBER_OF_SIDE][CUBE_SIZE][CUBE_SIZE];
     }
 
-    public void run(){
-        long beforeTime = System.currentTimeMillis();
+    private void initSides() {
+        topSide = cube[0];
+        leftSide = cube[1];
+        frontSide = cube[2];
+        rightSide = cube[3];
+        backSide = cube[4];
+        bottomSide = cube[5];
 
-        while(true){
-            //입력받기
-            String commands = inputLine();
+        fillColor(topSide, BlockColor.WHITE.color);
+        fillColor(leftSide,BlockColor.PURPLE.color);
+        fillColor(frontSide,BlockColor.GREEN.color);
+        fillColor(rightSide,BlockColor.RED.color);
+        fillColor(backSide,BlockColor.BLUE.color);
+        fillColor(bottomSide,BlockColor.YELLOW.color);
+    }
 
-            //Q 입력하면 종료
-            if(commands.equalsIgnoreCase("Q")){
-                long afterTime = System.currentTimeMillis();
-                long executionTime = (afterTime - beforeTime)/1000;
-
-                System.out.println("경과 시간: " + executionTime + "초");
-                System.out.println("조작개수: " + numberOfOperations);
-                System.out.println("🎈 이용해주셔서 감사합니다. 뚜뚜뚜. 🎈");
-                System.exit(0);
-            }
-
-
-
-            String[] lineArray = commands.split(" ");
-
-            for(String command:lineArray){
-                numberOfOperations += 1;
-                System.out.println(command); //대문자로 출력하기
-                rubiksCubeProcess(command);
-                printRubiksCube();
-            }
-
-
+    //한 면을 같은 색의 블록으로 채우기
+    private void fillColor(Block[][] side,String color){
+        for(Block[] line: side){
+            Arrays.fill(line,new Block(color));
         }
     }
 
-    private void rubiksCubeProcess(String command) {
+    public void rubiksCubeProcess(Command command) {
         switch (command){
-            case "U": case "u":
-                rotator.turnBaseSide("R",topSide);
-                rotator.turnTopSide("L",leftSide,frontSide,rightSide,backSide);
+            case UP:
+                rotator.turnBaseSide(Direction.RIGHT,topSide);
+                rotator.turnTopSide(Direction.LEFT,leftSide,frontSide,rightSide,backSide);
                 break;
-            case "D": case "d":
-                rotator.turnBaseSide("R",bottomSide);
-                rotator.turnBottomSide("R",leftSide,frontSide,rightSide,backSide);
+            case DOWN:
+                rotator.turnBaseSide(Direction.RIGHT,bottomSide);
+                rotator.turnBottomSide(Direction.RIGHT,leftSide,frontSide,rightSide,backSide);
                 break;
-            case "R": case "r":
-                rotator.turnBaseSide("R",rightSide);
-                rotator.turnRightSide("R",topSide,backSide,bottomSide,frontSide);
+            case RIGHT:
+                rotator.turnBaseSide(Direction.RIGHT,rightSide);
+                rotator.turnRightSide(Direction.RIGHT,topSide,backSide,bottomSide,frontSide);
                 break;
-            case "L": case "l":
-                rotator.turnBaseSide("R",leftSide);
-                rotator.turnLeftSide("L",topSide,backSide,bottomSide,frontSide);
+            case LEFT:
+                rotator.turnBaseSide(Direction.RIGHT,leftSide);
+                rotator.turnLeftSide(Direction.LEFT,topSide,backSide,bottomSide,frontSide);
                 break;
-            case "F": case "f":
-                rotator.turnBaseSide("R",frontSide);
-                rotator.turnFrontSide("R",topSide,rightSide,bottomSide,leftSide);
+            case FRONT:
+                rotator.turnBaseSide(Direction.RIGHT,frontSide);
+                rotator.turnFrontSide(Direction.RIGHT,topSide,rightSide,bottomSide,leftSide);
                 break;
-            case "B": case "b":
-                rotator.turnBaseSide("R",backSide);
-                rotator.turnBackSide("L",topSide,rightSide,bottomSide,leftSide);
+            case BACK:
+                rotator.turnBaseSide(Direction.RIGHT,backSide);
+                rotator.turnBackSide(Direction.LEFT,topSide,rightSide,bottomSide,leftSide);
+                break;
 
-
-                //반대로 돌기
-            case "U'": case "u'":
-                rotator.turnBaseSide("L",topSide);
-                rotator.turnTopSide("R",leftSide,frontSide,rightSide,backSide);
+            //반대로 돌기
+            case UP_REVERSE:
+                rotator.turnBaseSide(Direction.LEFT,topSide);
+                rotator.turnTopSide(Direction.RIGHT,leftSide,frontSide,rightSide,backSide);
                 break;
-            case "D'": case "d'":
-                rotator.turnBaseSide("L",bottomSide);
-                rotator.turnBottomSide("L",leftSide,frontSide,rightSide,backSide);
+            case DOWN_REVERSE:
+                rotator.turnBaseSide(Direction.LEFT,bottomSide);
+                rotator.turnBottomSide(Direction.LEFT,leftSide,frontSide,rightSide,backSide);
                 break;
-            case "R'": case "r'":
-                rotator.turnBaseSide("L",rightSide);
-                rotator.turnRightSide("L",topSide,backSide,bottomSide,frontSide);
+            case RIGHT_REVERSE:
+                rotator.turnBaseSide(Direction.LEFT,rightSide);
+                rotator.turnRightSide(Direction.LEFT,topSide,backSide,bottomSide,frontSide);
                 break;
-            case "L'": case "l'":
-                rotator.turnBaseSide("L",leftSide);
-                rotator.turnLeftSide("R",topSide,backSide,bottomSide,frontSide);
+            case LEFT_REVERSE:
+                rotator.turnBaseSide(Direction.LEFT,leftSide);
+                rotator.turnLeftSide(Direction.RIGHT,topSide,backSide,bottomSide,frontSide);
                 break;
-            case "F'": case "f'":
-                rotator.turnBaseSide("L",frontSide);
-                rotator.turnFrontSide("L",topSide,rightSide,bottomSide,leftSide);
+            case FRONT_REVERSE:
+                rotator.turnBaseSide(Direction.LEFT,frontSide);
+                rotator.turnFrontSide(Direction.LEFT,topSide,rightSide,bottomSide,leftSide);
                 break;
-            case "B'": case "b'":
-                rotator.turnBaseSide("L",backSide);
-                rotator.turnBackSide("R",topSide,rightSide,bottomSide,leftSide);
+            case BACK_REVERSE:
+                rotator.turnBaseSide(Direction.LEFT,backSide);
+                rotator.turnBackSide(Direction.RIGHT,topSide,rightSide,bottomSide,leftSide);
         }
 
-    }
-
-    //라인(U,R,L,B) 입력받기
-    private  String inputLine(){
-        System.out.print("CUBE> ");
-        Scanner sc = new Scanner(System.in);
-
-        return sc.nextLine();
-    }
-
-    /*출력*/
-    //옆면들 출력
-    private void printSides(){
-        for(int i = 0; i < CUBE_SIZE; i++){
-            leftSide.printLine(i);
-            frontSide.printLine(i);
-            rightSide.printLine(i);
-            backSide.printLine(i);
-            System.out.println();
-        }
-        System.out.println();
-    }
-
-
-
-    //루빅스 큐브 출력
-    public void printRubiksCube() {
-        topSide.printTopOrBottom();
-        printSides();
-        bottomSide.printTopOrBottom();
     }
 
 }
