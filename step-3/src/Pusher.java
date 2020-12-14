@@ -7,11 +7,6 @@ public class Pusher {
     private final Deque<Block[]> blockDeque = new ArrayDeque<>();
 
     //블록들 덱에 집어 넣기
-    public void insertBlock(Block[] blocks) {
-        blockDeque.add(blocks.clone());
-    }
-
-    //블록들 덱에 집어 넣기
     public void insertBlock(Block[] blocks1,Block[] blocks2,Block[] blocks3,Block[] blocks4) {
         blockDeque.add(blocks1.clone());
         blockDeque.add(blocks2.clone());
@@ -23,28 +18,14 @@ public class Pusher {
         return blockDeque.remove();
     }
 
-
-    public void printBlocks(){
-        for(Block[] blocks:blockDeque){
-            for(Block b: blocks){
-                System.out.print(b.getColor());
-            }
-            System.out.print(" ");
-        }
-    }
-    //리턴
-    public Deque<Block[]> getBlockDeque() {
-        return blockDeque;
-    }
-
-    public void pushBlock(int num, String direction) {
-        if(direction.equalsIgnoreCase("L")){
-            moveLeft(num);
-        }
-        else if(direction.equalsIgnoreCase("R")){
-            moveRight(num);
-        } else{
-            System.out.println("방향을 다시 입력하세요.");
+    public void pushBlock(int num, Direction direction) {
+        switch (direction){
+            case LEFT:
+                moveLeft(num);
+                break;
+            case RIGHT:
+                moveRight(num);
+                break;
         }
     }
 
