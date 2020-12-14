@@ -5,137 +5,136 @@ import java.util.Collections;
 import java.util.List;
 
 public class Rotator {
+    private final int size = 3;
     Pusher pusher = new Pusher();
-    //cmd: u
-    public void turnTopSide(String cmd, Side side1, Side side2, Side side3, Side side4) {
-        pusher.insertBlock(side1.getTopLine());
-        pusher.insertBlock(side2.getTopLine());
-        pusher.insertBlock(side3.getTopLine());
-        pusher.insertBlock(side4.getTopLine());
 
+    //cmd: u
+    public void turnTopSide(String cmd, Block[][] side1, Block[][] side2, Block[][] side3, Block[][] side4) {
+
+        pusher.insertBlock(getTopLine(side1),getTopLine(side2),getTopLine(side3),getTopLine(side4));
         pusher.pushBlock(1,cmd);
 
-        side1.setTopLine(pusher.getBlockDeque().remove());
-        side2.setTopLine(pusher.getBlockDeque().remove());
-        side3.setTopLine(pusher.getBlockDeque().remove());
-        side4.setTopLine(pusher.getBlockDeque().remove());
+        setTopLine(pusher.getBlockDeque().remove(),side1);
+        setTopLine(pusher.getBlockDeque().remove(),side2);
+        setTopLine(pusher.getBlockDeque().remove(),side3);
+        setTopLine(pusher.getBlockDeque().remove(),side4);
+
     }
 
     //cmd: D
     //direction,leftside,frontside,rightside,backside
-    public void turnBottomSide(String cmd, Side side1, Side side2, Side side3, Side side4) {
-        pusher.insertBlock(side1.getBottomLine(),side2.getBottomLine(),
-                side3.getBottomLine(),side4.getBottomLine());
+    public void turnBottomSide(String cmd, Block[][] side1, Block[][] side2, Block[][] side3, Block[][] side4) {
 
+        pusher.insertBlock(getBottomLine(side1),getBottomLine(side2),getBottomLine(side3),getBottomLine(side4));
         pusher.pushBlock(1,cmd);
 
-        side1.setBottomLine(pusher.getBlocks());
-        side2.setBottomLine(pusher.getBlocks());
-        side3.setBottomLine(pusher.getBlocks());
-        side4.setBottomLine(pusher.getBlocks());
+        setBottomLine(pusher.getBlocks(),side1);
+        setBottomLine(pusher.getBlocks(),side2);
+        setBottomLine(pusher.getBlocks(),side3);
+        setBottomLine(pusher.getBlocks(),side4);
 
     }
 
     //cmd: F
     //direction,topside,rightside,bottomside,leftside
-    public void turnFrontSide(String cmd, Side side1, Side side2, Side side3, Side side4) {
+    public void turnFrontSide(String cmd, Block[][] side1, Block[][] side2, Block[][] side3, Block[][] side4) {
         if(cmd.equalsIgnoreCase("R")){
-            pusher.insertBlock(side1.getBottomLine(),reverse(side2.getLeftLine()),
-                    side3.getTopLine(),reverse(side4.getRightLine()));
+            pusher.insertBlock(getBottomLine(side1),reverse(getLeftLine(side2)),
+                    getTopLine(side3),reverse(getRightLine(side4)));
 
         } else if(cmd.equalsIgnoreCase("L")){
-            pusher.insertBlock(reverse(side1.getBottomLine()),side2.getLeftLine(),
-                    reverse(side3.getTopLine()),side4.getRightLine());
+            pusher.insertBlock(reverse(getBottomLine(side1)),getLeftLine(side2),
+                    reverse(getTopLine(side3)),getRightLine(side4));
         }
 
 
         pusher.pushBlock(1,cmd);
 
-        side1.setBottomLine(pusher.getBlockDeque().remove());
-        side2.setLeftLine(pusher.getBlockDeque().remove());
-        side3.setTopLine(pusher.getBlockDeque().remove());
-        side4.setRightLine(pusher.getBlockDeque().remove());
+        setBottomLine(pusher.getBlockDeque().remove(),side1);
+        setLeftLine(pusher.getBlockDeque().remove(),side2);
+        setTopLine(pusher.getBlockDeque().remove(),side3);
+        setRightLine(pusher.getBlockDeque().remove(),side4);
 
     }
 
     //cmd: B
     //direction,topside,rightside,bottomside,leftside
-    public void turnBackSide(String cmd, Side side1, Side side2, Side side3, Side side4) {
+    public void turnBackSide(String cmd, Block[][] side1, Block[][] side2, Block[][] side3, Block[][] side4) {
         if(cmd.equalsIgnoreCase("R")){
-            pusher.insertBlock(side1.getTopLine(),reverse(side2.getRightLine()),
-                    side3.getBottomLine(),reverse(side4.getLeftLine()));
-
+            pusher.insertBlock(getTopLine(side1),reverse(getRightLine(side2)),
+                    getBottomLine(side3),reverse(getLeftLine(side4)));
         } else if(cmd.equalsIgnoreCase("L")){
-            pusher.insertBlock(reverse(side1.getTopLine()),side2.getRightLine(),
-                    reverse(side3.getBottomLine()),side4.getLeftLine());
+            pusher.insertBlock(reverse(getTopLine(side1)),getRightLine(side2),
+                    reverse(getBottomLine(side3)),getLeftLine(side4));
         }
 
         pusher.pushBlock(1,cmd);
 
-        side1.setTopLine(pusher.getBlockDeque().remove());
-        side2.setRightLine(pusher.getBlockDeque().remove());
-        side3.setBottomLine(pusher.getBlockDeque().remove());
-        side4.setLeftLine(pusher.getBlockDeque().remove());
+        setTopLine(pusher.getBlockDeque().remove(),side1);
+        setRightLine(pusher.getBlockDeque().remove(),side2);
+        setBottomLine(pusher.getBlockDeque().remove(),side3);
+        setLeftLine(pusher.getBlockDeque().remove(),side4);
     }
 
     //cmd: R
-    //direction,topside,backside,bottomside,frontside
-    public void turnRightSide(String cmd, Side side1, Side side2, Side side3, Side side4) {
+    //direction,toptside,backside,bottomside,frontside
+    public void turnRightSide(String cmd, Block[][] side1, Block[][] side2, Block[][] side3, Block[][] side4) {
         if(cmd.equalsIgnoreCase("R")){
-            pusher.insertBlock(reverse(side1.getRightLine()),reverse(side2.getLeftLine()),
-                    side3.getRightLine(),side4.getRightLine());
+            pusher.insertBlock(reverse(getRightLine(side1)),reverse(getLeftLine(side2)),
+                    getRightLine(side3),getRightLine(side4));
 
         } else if(cmd.equalsIgnoreCase("L")){
-            pusher.insertBlock(side1.getRightLine(),side2.getLeftLine(),
-                    reverse(side3.getRightLine()),reverse(side4.getRightLine()));
+            pusher.insertBlock(getRightLine(side1),reverse(getLeftLine(side2)),
+                    reverse(getRightLine(side3)),getRightLine(side4));
         }
 
         pusher.pushBlock(1,cmd);
 
-        side1.setRightLine(pusher.getBlockDeque().remove());
-        side2.setLeftLine(pusher.getBlockDeque().remove());
-        side3.setRightLine(pusher.getBlockDeque().remove());
-        side4.setRightLine(pusher.getBlockDeque().remove());
+        setRightLine(pusher.getBlockDeque().remove(),side1);
+        setLeftLine(pusher.getBlockDeque().remove(),side2);
+        setRightLine(pusher.getBlockDeque().remove(),side3);
+        setRightLine(pusher.getBlockDeque().remove(),side4);
     }
 
     //cmd: L
     //direction,toptside,backside,bottomside,frontside
-    public void turnLeftSide(String cmd, Side side1, Side side2, Side side3, Side side4) {
-        if(cmd.equalsIgnoreCase("R")){
-            pusher.insertBlock(reverse(side1.getLeftLine()),side2.getRightLine(),
-                    side3.getLeftLine(),reverse(side4.getLeftLine()));
+    public void turnLeftSide(String cmd, Block[][] side1, Block[][] side2, Block[][] side3, Block[][] side4) {
+        if(cmd.equalsIgnoreCase("R")){ //l'
+            pusher.insertBlock(reverse(getLeftLine(side1)),reverse(getRightLine(side2)),
+                    getLeftLine(side3),getLeftLine(side4));
+
 
         } else if(cmd.equalsIgnoreCase("L")){
-            pusher.insertBlock(side1.getLeftLine(),reverse(side2.getRightLine()),
-                    reverse(side3.getLeftLine()),side4.getLeftLine());
+            pusher.insertBlock(getLeftLine(side1),reverse(getRightLine(side2)),
+                    reverse(getLeftLine(side3)),getLeftLine(side4));
         }
 
         pusher.pushBlock(1,cmd);
 
-        side1.setLeftLine(pusher.getBlockDeque().remove());
-        side2.setRightLine(pusher.getBlockDeque().remove());
-        side3.setLeftLine(pusher.getBlockDeque().remove());
-        side4.setLeftLine(pusher.getBlockDeque().remove());
+        setLeftLine(pusher.getBlockDeque().remove(),side1);
+        setRightLine(pusher.getBlockDeque().remove(),side2);
+        setLeftLine(pusher.getBlockDeque().remove(),side3);
+        setLeftLine(pusher.getBlockDeque().remove(),side4);
     }
 
-    //해당 면 돌리기
-    public void turnBaseSide(String cmd,Side side){
 
+    //해당 면 돌리기
+    public void turnBaseSide(String cmd,Block[][] side){
         if(cmd.equalsIgnoreCase("R")){
-            pusher.insertBlock(side.getTopLine(),reverse(side.getRightLine()),
-                    side.getBottomLine(),reverse(side.getLeftLine()));
+            pusher.insertBlock(getTopLine(side),reverse(getRightLine(side)),
+                    getBottomLine(side),reverse(getLeftLine(side)));
         } else if(cmd.equalsIgnoreCase("L")){
-            pusher.insertBlock(reverse(side.getTopLine()),side.getRightLine(),
-                    reverse(side.getBottomLine()),side.getLeftLine());
+            pusher.insertBlock(reverse(getTopLine(side)),getRightLine(side),
+                    reverse(getBottomLine(side)),getLeftLine(side));
         }
 
 
         pusher.pushBlock(1,cmd);
 
-        side.setTopLine(pusher.getBlocks());
-        side.setRightLine(pusher.getBlocks());
-        side.setBottomLine(pusher.getBlocks());
-        side.setLeftLine(pusher.getBlocks());
+        setTopLine(pusher.getBlocks(),side);
+        setRightLine(pusher.getBlocks(),side);
+        setBottomLine(pusher.getBlocks(),side);
+        setLeftLine(pusher.getBlocks(),side);
 
     }
 
@@ -145,6 +144,66 @@ public class Rotator {
         Collections.reverse(blockList);
 
         return blockList.toArray(new Block[0]);
+
+    }
+
+    ///////////////////////////////////////////////////
+
+
+
+    public int getSize(){
+        return this.size;
+    }
+
+    public Block[] getTopLine(Block[][] side){
+        Block[] topLine = new Block[size];
+        System.arraycopy(side[0], 0, topLine, 0, size);
+        return topLine;
+    }
+
+    public Block[] getBottomLine(Block[][] side){
+        Block[] bottomLine = new Block[size];
+        System.arraycopy(side[2], 0, bottomLine, 0, size);
+        return bottomLine;
+    }
+
+    public Block[] getRightLine(Block[][] side){
+        Block[] rightLine = new Block[size];
+        for(int i = 0; i < size; i++){
+            rightLine[i] = side[i][size-1];
+        }
+
+        return rightLine;
+    }
+
+    public Block[] getLeftLine(Block[][] side){
+        Block[] leftLine = new Block[size];
+        for(int i = 0; i < size; i++){
+            leftLine[i] = side[i][0];
+        }
+
+        return leftLine;
+    }
+
+    public void setTopLine(Block[] blocks,Block[][] side){
+        System.arraycopy(blocks, 0, side[0], 0, size);
+    }
+
+    public void setBottomLine(Block[] blocks,Block[][] side){
+        System.arraycopy(blocks, 0, side[2], 0, size);
+    }
+
+    public void setRightLine(Block[] blocks,Block[][] side){
+        for(int i = 0; i < size; i++){
+            side[i][size-1] = blocks[i];
+        }
+
+    }
+
+    public void setLeftLine(Block[] blocks,Block[][] side){
+        for(int i = 0; i < size; i++){
+            side[i][0] = blocks[i];
+        }
 
     }
 
