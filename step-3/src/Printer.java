@@ -8,7 +8,7 @@ public class Printer {
     public static void printRubiksCube(Block[][][] cube) {
         printTopOrBottom(cube[TOP_SIDE_INDEX]);
         printSides(cube);
-        printTopOrBottom(cube[5]);
+        printTopOrBottom(cube[BOTTOM_SIDE_INDEX]);
     }
 
     //큐브 위 아랫면 출력
