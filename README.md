@@ -239,11 +239,7 @@
 - Command에 맞는 회전 동작을 실행.
 - ex)"U"를 입력하였을 경우:
 
- 1)기준이 되는 윗면을 시계방향으로 돌린다.(turnBaseSide)   
- 
- |기준 면 회전 전|기준 면 회전 후|
- |--------------|---------------|
- |![topside](./image/topside.png)|![turntopside](./image/turntopside.png)|
+ 1)기준이 되는 윗면을 시계방향으로 돌린다.(turnBaseSide)  
  
  2)옆 면들을 반시계방향으로 돌린다.(turnTopSide)
 
@@ -254,3 +250,10 @@
                 rotator.turnBaseSide(Direction.RIGHT,topSide);
                 rotator.turnTopSide(Direction.LEFT,leftSide,frontSide,rightSide,backSide);
                 break;
+
+
+ |기준 면 회전 전|기준 면 회전 후|
+ |--------------|---------------|
+ |![topside](./image/topside.png)|![turntopside](./image/turntopside.png)|
+ 
+ 
