@@ -9,17 +9,17 @@
 - 입력: apple 3 L
 
 
-    apple 3 L
-    leapp
+        apple 3 L
+        leapp
     
 - 입력: banana 6 R
 
 
-    banana 6 R
-    banana
+        banana 6 R
+        banana
 
 - 입력: carrot -1 r    
 
 
-    carrot -1 r
-    arrotc
+        carrot -1 r
+        arrotc
