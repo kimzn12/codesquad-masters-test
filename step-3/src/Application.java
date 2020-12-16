@@ -11,9 +11,11 @@ public class Application {
     }
 
     private void run(Scanner scanner){
-        int numberOfOperations = 0;
-        RubiksCube rubiksCube = new RubiksCube();
         long startTime = System.currentTimeMillis();
+        int numberOfOperations = 0;
+
+        RubiksCube rubiksCube = new RubiksCube();
+        rubiksCube.print();
 
         while(true){
             String inputValues = inputCommand(scanner);
@@ -23,19 +25,34 @@ public class Application {
                 quit(startTime,numberOfOperations);
             }
 
+            //S 입력하면 셔플
+            if(inputValues.equalsIgnoreCase(Command.SHUFFLE.cmd)){
+                rubiksCube.shuffle(50);
+                rubiksCube.print();
+            }
+
             String[] inputArray = splitInput(inputValues);
 
             for(String input:inputArray){
-                if((getCommand(input) == null)||(getCommand(input) == Command.QUIT)){
+                if((getCommand(input) == null)||(getCommand(input) == Command.QUIT)
+                        || (getCommand(input) == Command.SHUFFLE)){
                    continue;
                 }
                 numberOfOperations += 1;
                 System.out.println(input.toUpperCase());
                 rubiksCube.rubiksCubeProcess(getCommand(input));
-                Printer.printRubiksCube(rubiksCube.getCube());
+                rubiksCube.print();
+
+                if(rubiksCube.finish()){
+                    System.out.println("🎉🎉🎉축하합니다. 큐브 완성!🎉🎉🎉");
+                    System.out.println();
+                    quit(startTime,numberOfOperations);
+                }
             }
         }
     }
+
+
 
     private void quit(long startTime,int numberOfOperations) {
         long endTime = System.currentTimeMillis();
