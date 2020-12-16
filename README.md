@@ -170,12 +170,12 @@
 - 각 면을 원하는 색깔로 채운다.
 
 
-    //한 면을 같은 색의 블록으로 채우기
-    private void fillColor(Block[][] side,String color){
-        for(Block[] line: side){
-            Arrays.fill(line,new Block(color));
-        }
-    }
+      //한 면을 같은 색의 블록으로 채우기
+      private void fillColor(Block[][] side,String color){
+          for(Block[] line: side){
+              Arrays.fill(line,new Block(color));
+          }
+      }
     
 
 - Command에 맞는 회전 동작을 실행.
