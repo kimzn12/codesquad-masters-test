@@ -22,12 +22,18 @@ public class RubiksCube {
 
         initCube();
         initSides();
-        Shuffler.shuffle(cube,50);
+    }
+
+    public void shuffle(int num){
+        Shuffler.shuffle(cube,num);
+    }
+
+    public void print(){
         Printer.printRubiksCube(cube);
     }
 
-    public Block[][][] getCube(){
-        return this.cube;
+    public Boolean finish(){
+       return Terminator.checkFinish(cube);
     }
 
     private void initCube() {
