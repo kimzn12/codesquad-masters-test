@@ -7,7 +7,7 @@ enum Command {
     DOWN("D"),DOWN_REVERSE("D'"),
     RIGHT("R"),RIGHT_REVERSE("R'"),
     LEFT("L"),LEFT_REVERSE("L'"),
-    QUIT("Q");
+    SHUFFLE("S"),QUIT("Q");
 
     public String cmd;
 
