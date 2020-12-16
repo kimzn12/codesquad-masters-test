@@ -1,7 +1,7 @@
 # CodeSquad masters test 
 ## Step 3: 루빅스 큐브 구현하기
 ### 루빅스 큐브
-! [Rubik'sCube](./image/rubikscube.png)  
+![Rubik'sCube](./image/rubikscube.png)  
 참고 사이트 :  https://rubiks-cube-solver.com/ko/
 ### 규칙
 - [x] 큐브는 W, B, G, Y, O, R의 6가지 색깔을 가지고 있다.
